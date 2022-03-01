@@ -1,0 +1,73 @@
+{
+  "info": {
+    "_postman_id": "94d30e8e-82b4-48f9-93ec-39f91032d1d4",
+    "name": "API Testing Project",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Test",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "935ae41a-3557-4e18-970a-743bf7ab691e",
+            "exec": [
+              "var jsonData = pm.response.json();",
+              "var cnt = jsonData.count;",
+              "//save count value in environment variable",
+              "pm.environment.set('totalCount', cnt);",
+              "console.log(\"Total Count :\" +pm.environment.get(\"totalCount\"));",
+              "//unset count value  ",
+              "pm.environment.unset('totalCount');",
+              "console.log(\"Unset Count : \" +pm.environment.get(\"totalCount\"));",
+              "",
+              "pm.test(\"Verify Count is present\", function()",
+              "{",
+              "    pm.expect(jsonData).to.include.keys(\"count\")",
+              "}",
+              ")",
+              "pm.test(\"Verify the status is 200 \", function()",
+              "{",
+              "    pm.response.to.have.status(200);",
+              "}",
+              ");",
+              "pm.test(\"Verify if count is greater than 600\",function()",
+              "{",
+              "    pm.expect(jsonData.count).to.greaterThan(600);",
+              "}",
+              ");",
+              "pm.test(\"Verify the first API key is AdoptAPet\", function()",
+              "{",
+              "    pm.expect(jsonData.entries[0].API).to.equal(\"AdoptAPet\")",
+              "}",
+              ")",
+              "//print description value",
+              "console.log(jsonData.entries[0].API + ' Description is : ' + jsonData.entries[0].Description)"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "_postman_id": "3dafd63c-c074-4570-815c-763c5b6a6b8f",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "https://api.publicapis.org/entries"
+      },
+      "response": []
+    }
+  ]
+}
